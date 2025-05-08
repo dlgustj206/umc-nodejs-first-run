@@ -1,3 +1,6 @@
-# dtoenv environment variable files
-.env
+# dependency directories
 node_modules/
+
+# dotenv environment variable files
+.env
+.env.*
