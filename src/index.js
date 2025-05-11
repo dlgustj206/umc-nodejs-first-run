@@ -2,6 +2,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import { handleUserSignUp } from "./controllers/user.controller.js";
+import { handleAddStore } from "./controllers/store.controller.js";
 
 dotenv.config();
 
@@ -17,7 +18,11 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.post("/api/v1/users/signup", handleUserSignUp);
+// 회원가입
+app.post("/api/users/signup", handleUserSignUp);
+
+// 특정 지역에 가게 추가
+app.post("/api/regions/:regionId/stores", handleAddStore);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
