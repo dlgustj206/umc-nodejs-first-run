@@ -7,13 +7,13 @@ export const handleAddStore = async (req, res, next) => {
 
     try {
         const regionId = req.params.regionId;
-        const { name, address } = req.body;
+        const storeDTO = bodyToStore(req.body, regionId);
 
-        if (!regionId || !name || !address) {
+        if (!regionId || !storeDTO.name || !storeDTO.address) {
             return res.status(StatusCodes.BAD_REQUEST).json({ error: "필수 값 누락" });
         }
 
-        const storeId = await addNewStore(bodyToStore(req.body, req.params.regionId));
+        const storeId = await addNewStore(storeDTO);
         res.status(StatusCodes.CREATED).json({
             message: "가게가 성공적으로 추가되었습니다!",
             storeId: storeId
