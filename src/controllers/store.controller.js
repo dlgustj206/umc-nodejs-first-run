@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { bodyToStore } from "../dtos/store.dto.js"
+import { bodyToStore } from "../dtos/store.dto.js";
 import { addNewStore } from "../services/store.service.js";
 
 export const handleAddStore = async (req, res, next) => {
