@@ -10,7 +10,7 @@ export const handleAddReview = async (req, res, next) => {
         const {userId, content, score} = req.body;
 
         if (!storeId || !userId || !content) {
-            return res.status(StatusCodes.BAD_REQUEST).json({ error: "필수 값 누락error1" });
+            return res.status(StatusCodes.BAD_REQUEST).json({ error: "필수 값 누락" });
         }
 
         const reviewDTO = bodyToReview(req.body, storeId);
