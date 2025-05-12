@@ -10,7 +10,7 @@ export const handleAddMission = async (req, res, next) => {
         const {reward, deadline, missionSpec} = req.body;
 
         if (!storeId || !reward || !deadline || !missionSpec) {
-            return res.status(StatusCodes.BAD_REQUEST).json({ error: "필수 값 누락error1" });
+            return res.status(StatusCodes.BAD_REQUEST).json({ error: "필수 값 누락" });
         }
 
         const missionDTO = bodyToMission(req.body, storeId);
