@@ -13,7 +13,7 @@ export const handleAddReview = async (req, res, next) => {
             return res.status(StatusCodes.BAD_REQUEST).json({ error: "필수 값 누락error1" });
         }
 
-        const reviewDTO = bodyToReview(req.body, storeId, userId);
+        const reviewDTO = bodyToReview(req.body, storeId);
         const reviewId = await addNewReview(reviewDTO);
 
         res.status(StatusCodes.CREATED).json({
