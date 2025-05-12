@@ -28,7 +28,7 @@ export const getMissionById = async (missionId) => {
 
         return mission[0];
     } catch (err) {
-        throw new Error('리뷰 조회 실패: ' + err.message);
+        throw new Error('미션 조회 실패: ' + err.message);
     } finally {
         conn.release();
     }
