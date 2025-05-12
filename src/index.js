@@ -4,6 +4,7 @@ import express from "express";
 import { handleUserSignUp } from "./controllers/user.controller.js";
 import { handleAddStore } from "./controllers/store.controller.js";
 import { handleAddReview } from "./controllers/review.controller.js";
+import { handleAddMission } from "./controllers/mission.controller.js";
 
 dotenv.config();
 
@@ -27,6 +28,9 @@ app.post("/api/regions/:regionId/stores", handleAddStore);
 
 // 가게에 리뷰 추가
 app.post("/api/stores/:storeId/reviews", handleAddReview);
+
+// 가게에 미션 추가
+app.post("/api/stores/:storeId/missions", handleAddMission);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
