@@ -24,7 +24,7 @@ model User {
   phoneNumber   String  @map("phone_number") @db.VarChar(20)
   createdAt     DateTime @default(now()) @map("created_at")
 
-  userFavorCategories UserFavorCategory[] // 1:M °ü°è (User -> ¿©·¯ °³ UserFavorCategory)
+  userFavorCategories UserFavorCategory[] // 1:M ê´€ê³„ (User -> ì—¬ëŸ¬ ê°œ UserFavorCategory)
 
   @@map("user")
 }
@@ -40,7 +40,7 @@ model FoodCategory {
 
 model UserFavorCategory {
   id             Int          @id @default(autoincrement())
-  user           User         @relation(fields: [userId], references: [id]) // M:1 °ü°è (°¢ U.F.C´Â ÇÏ³ªÀÇ User¿¡ ¼ÓÇÔ)
+  user           User         @relation(fields: [userId], references: [id]) // M:1 ê´€ê³„ (ê° U.F.CëŠ” í•˜ë‚˜ì˜ Userì— ì†í•¨)
   userId         Int          @map("user_id")
   foodCategory   FoodCategory @relation(fields: [foodCategoryId], references: [id])
   foodCategoryId Int          @map("food_category_id")
