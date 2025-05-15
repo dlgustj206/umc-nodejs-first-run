@@ -14,38 +14,164 @@ datasource db {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
-  email         String   @unique(map: "email") @db.VarChar(255)
-  name          String   @db.VarChar(100)
-  gender        String   @db.VarChar(15)
-  birth         DateTime @db.Date
-  address       String   @db.VarChar(255)
-  detailAddress String?  @map("detail_address") @db.VarChar(255)
-  phoneNumber   String  @map("phone_number") @db.VarChar(20)
-  createdAt     DateTime @default(now()) @map("created_at")
+  id             BigInt       @id @default(autoincrement())
+  name           String       @db.VarChar(100)
+  gender         String       @db.VarChar(15)
+  birth          DateTime     @db.DateTime(6)
+  age            Int
+  email          String       @unique(map: "email") @db.VarChar(255)
+  phoneNumber    String       @map("phone_number") @db.VarChar(20)
+  address        String       @db.VarChar(255)
+  specAddress    String       @map("spec_address") @db.VarChar(40)
+  point          Int
+  status         String       @db.VarChar(15)
+  inactiveDate   DateTime?    @map("inactive_date")
+  socialType     String       @map("social_type") @db.VarChar(10)
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
 
-  userFavorCategories UserFavorCategory[] // 1:M 관계 (User -> 여러 개 UserFavorCategory)
+  reviews                     Review[]
+  userFavorCategories         UserFavorCategory[]
+  userMissions                UserMission[]
+  userAgrees                  UserAgree[]
 
   @@map("user")
 }
 
 model FoodCategory {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(100)
+  id             BigInt       @id @default(autoincrement())
+  name           String       @db.VarChar(15)
+  createdAt      DateTime     @default(now()) @map("created_at")
 
-  userFavorCategories UserFavorCategory[]
+  userFavorCategories         UserFavorCategory[]
 
   @@map("food_category")
 }
 
 model UserFavorCategory {
-  id             Int          @id @default(autoincrement())
-  user           User         @relation(fields: [userId], references: [id]) // M:1 관계 (각 U.F.C는 하나의 User에 속함)
-  userId         Int          @map("user_id")
-  foodCategory   FoodCategory @relation(fields: [foodCategoryId], references: [id])
+  id             BigInt       @id @default(autoincrement())
+  userId         BigInt       @map("user_id")
   foodCategoryId Int          @map("food_category_id")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+  user           User         @relation(fields: [userId], references: [id]) // M:1 관계 (각 U.F.C는 하나의 User에 속함)
+  foodCategory   FoodCategory @relation(fields: [foodCategoryId], references: [id])
 
-  @@index([foodCategoryId], map: "f_category_id")
   @@index([userId], map: "user_id")
+  @@index([foodCategoryId], map: "f_category_id")
   @@map("user_favor_category")
 }
+
+model Store {
+  id             BigInt       @id @default(autoincrement())
+  regionId       BigInt       @map("region_id")
+  namea          String       @db.VarChar(50)
+  ddress         String       @db.VarChar(50)
+  score          Float        @db.Float
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+  region         region       @relation(fields: [regionId], references: [id])
+
+  missions                    Mission[]
+  reviews                     Review[]
+
+  @@index([regionId], map: "region_id)
+  @@map("store")
+}
+
+model Region {
+  id             BigInt       @id @default(autoincrement())
+  name           String       @db.VarChar(20)
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  stores         Store[]
+
+  @@map("region")
+}
+
+mode Review {
+  id             BigInt       @id @default(autoincrement())
+  userId         BigInt       @map("user_id")
+  storeId        BigInt       @map("store_id")
+  body           String       @db.Text
+  score          Float        @db.Float
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+  user           User         @relation(fields: [userId], references: [id])
+  store          Store        @relation(fields: [storeId], references: [id])
+
+  reviewImages                ReviewImage[]
+
+  @@index([userId], map: "user_id")
+  @@index([storeId], map: "store_id")
+  @@map("review")
+}
+
+model ReviewImage {
+  id             BigInt       @id @default(autoincrement())
+  reviewId       BigInt       @map("review_id")
+  imageUrl       String       @map("image_url")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+  review         Review       @relation(fields: [reviewId], references: [id])
+
+  @@index([reviewId], map: "review_id")
+  @@map("review_image")
+}
+
+model Mission {
+  id             BigInt       @id @default(autoincrement())
+  storeId        BigInt       @map("store_id")
+  reward         Int
+  deadline       DateTime     @db.DateTime(6)
+  missionSpec    String       @map("mission_spec") @db.Text
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+  store          Store        @relation(fields: [storeId], references: [id])
+
+  userMissions                UserMission[]
+
+  @@index([storeId], map: "store_id")
+  @@map("mission")
+}
+
+model UserMission {
+  id             BigInt       @id @default(autoincrement())
+  userId         BigInt       @map("user_id")
+  missionId      BigInt       @map("mission_id")
+  status         String       @db.VarChar(15)
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+  user           User         @relation(fields: [userId], references: [id])
+  mission        Mission      @relation(fields: [missionId], references: [id])
+
+  @@index([userId], map: "user_id")
+  @@index([missionId], map: "mission_id")
+  @map("user_mission")
+}
+
+model Terms {
+  id             BigInt       @id @default(autoincrement())
+  title          String       @db.VarChar(20)
+  body           String       @db.Text
+  optional       Boolean
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  userAgrees                  UserAgree[]
+
+  @@map("terms")
+}
+
+model UserAgree {
+  id             BigInt       @id @default(autoincrement())
+  userId         BigInt       @map("user_id")
+  termsId        BigInt       @map("terms_id")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+  user           User         @relation(fields: [userId], references: [id])
+  terms          Terms        @relation(fields: [termsId], references: [id])`
+
+  @@map("user_agree")
+}```
