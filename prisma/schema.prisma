@@ -174,4 +174,4 @@ model UserAgree {
   terms          Terms        @relation(fields: [termsId], references: [id])`
 
   @@map("user_agree")
-}```
+}
