@@ -51,7 +51,7 @@ model FoodCategory {
 model UserFavorCategory {
   id             BigInt       @id @default(autoincrement())
   userId         BigInt       @map("user_id")
-  foodCategoryId Int          @map("food_category_id")
+  foodCategoryId BigInt          @map("food_category_id")
   createdAt      DateTime     @default(now()) @map("created_at")
   updatedAt      DateTime     @updatedAt @map("updated_at")
   user           User         @relation(fields: [userId], references: [id]) // M:1 관계 (각 U.F.C는 하나의 User에 속함)
@@ -70,12 +70,12 @@ model Store {
   score          Float        @db.Float
   createdAt      DateTime     @default(now()) @map("created_at")
   updatedAt      DateTime     @updatedAt @map("updated_at")
-  region         region       @relation(fields: [regionId], references: [id])
+  region         Region       @relation(fields: [regionId], references: [id])
 
-  missions                    Mission[]
-  reviews                     Review[]
+  missions       Mission[]
+  reviews        Review[]
 
-  @@index([regionId], map: "region_id)
+  @@index([regionId], map: "region_id")
   @@map("store")
 }
 
@@ -90,7 +90,7 @@ model Region {
   @@map("region")
 }
 
-mode Review {
+model Review {
   id             BigInt       @id @default(autoincrement())
   userId         BigInt       @map("user_id")
   storeId        BigInt       @map("store_id")
@@ -101,7 +101,7 @@ mode Review {
   user           User         @relation(fields: [userId], references: [id])
   store          Store        @relation(fields: [storeId], references: [id])
 
-  reviewImages                ReviewImage[]
+  reviewImages   ReviewImage[]
 
   @@index([userId], map: "user_id")
   @@index([storeId], map: "store_id")
@@ -130,7 +130,7 @@ model Mission {
   updatedAt      DateTime     @updatedAt @map("updated_at")
   store          Store        @relation(fields: [storeId], references: [id])
 
-  userMissions                UserMission[]
+  userMissions   UserMission[]
 
   @@index([storeId], map: "store_id")
   @@map("mission")
@@ -148,7 +148,7 @@ model UserMission {
 
   @@index([userId], map: "user_id")
   @@index([missionId], map: "mission_id")
-  @map("user_mission")
+  @@map("user_mission")
 }
 
 model Terms {
@@ -159,7 +159,7 @@ model Terms {
   createdAt      DateTime     @default(now()) @map("created_at")
   updatedAt      DateTime     @updatedAt @map("updated_at")
 
-  userAgrees                  UserAgree[]
+  userAgrees     UserAgree[]
 
   @@map("terms")
 }
@@ -171,7 +171,7 @@ model UserAgree {
   createdAt      DateTime     @default(now()) @map("created_at")
   updatedAt      DateTime     @updatedAt @map("updated_at")
   user           User         @relation(fields: [userId], references: [id])
-  terms          Terms        @relation(fields: [termsId], references: [id])`
+  terms          Terms        @relation(fields: [termsId], references: [id])
 
   @@map("user_agree")
 }
