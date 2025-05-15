@@ -24,7 +24,7 @@ model User {
   phoneNumber   String  @map("phone_number") @db.VarChar(20)
   createdAt     DateTime @default(now()) @map("created_at")
 
-  userFavorCategories UserFavorCategory[]
+  userFavorCategories UserFavorCategory[] // 1:M 관계 (User -> 여러 개 UserFavorCategory)
 
   @@map("user")
 }
@@ -40,7 +40,7 @@ model FoodCategory {
 
 model UserFavorCategory {
   id             Int          @id @default(autoincrement())
-  user           User         @relation(fields: [userId], references: [id])
+  user           User         @relation(fields: [userId], references: [id]) // M:1 관계 (각 U.F.C는 하나의 User에 속함)
   userId         Int          @map("user_id")
   foodCategory   FoodCategory @relation(fields: [foodCategoryId], references: [id])
   foodCategoryId Int          @map("food_category_id")
