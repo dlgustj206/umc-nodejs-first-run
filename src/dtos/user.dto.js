@@ -13,19 +13,14 @@ export const bodyToUser = (body) => {
   };
 };
 
-export const responseFromUser = (user) => {
-  if (!user) {
-    return null;
-  }
+export const responseFromUser = ({ user, preferences }) => {
+  const preferFoods = preferences.map(
+    (preference) => preference.foodCategory.name
+  );
 
   return {
     email: user.email,
     name: user.name,
-    gender: user.gender,
-    birth: user.birth,
-    address: user.address || "",
-    detailAddress: user.detail_address || "",
-    phoneNumber: user.phone_number || "",
-    preferences: preferences ? preferences.map(pref => pref.name) : []
+    preferCategory: preferFoods,
   };
 };
