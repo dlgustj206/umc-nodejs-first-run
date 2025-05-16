@@ -23,3 +23,10 @@ export const handleAddStore = async (req, res, next) => {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: err.message });
     }
 };
+
+export const handleListStoreReviews = async (req, res, next) => {
+    const reviews = await handleListStoreReviews(
+        req.params.storeId
+    );
+    res.status(StatusCodes.OK).json(reviews);
+}
