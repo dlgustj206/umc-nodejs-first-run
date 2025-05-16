@@ -27,8 +27,9 @@ app.post("/api/users/signup", handleUserSignUp);
 // 특정 지역에 가게 추가
 app.post("/api/regions/:regionId/stores", handleAddStore);
 
-// 가게에 리뷰 추가
+// 리뷰 관련
 app.post("/api/stores/:storeId/reviews", handleAddReview);
+app.get("/api/store/:storeId/reviews", handleListStoreReviews);
 
 // 가게에 미션 추가
 app.post("/api/stores/:storeId/missions", handleAddMission);
