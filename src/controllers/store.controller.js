@@ -26,8 +26,17 @@ export const handleAddStore = async (req, res, next) => {
 };
 
 export const handleListStoreReviews = async (req, res, next) => {
-    const reviews = await listStoreReviews(
-        req.params.storeId
-    );
-    res.status(StatusCodes.OK).json(reviews);
+    try {
+        const storeId = parseInt(req.params.storeId);
+        const cursor = req.query.cursor ? parseInt(req.query.cursor) : 0;
+
+        const reviews = await listStoreReviews(storeId, cursor);
+
+        res.status(StatusCodes.OK).json({
+            message: "가게 리뷰 목록을 성공적으로 조회했습니다!",
+            reviews
+        });
+    } catch (err) {
+        next(err);
+    }
 }
