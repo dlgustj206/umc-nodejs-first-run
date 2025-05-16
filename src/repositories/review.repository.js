@@ -1,4 +1,5 @@
 import { pool } from "../db.config.js";
+import { prisma } from "../db.config.js";
 
 export const addReview = async (review) => {
     const conn = await pool.getConnection();
@@ -42,5 +43,28 @@ export const checkStoreExists = async (storeId) => {
         return store.length > 0;
     } finally {
         conn.release;
+    }
+}
+
+export const getAllStoreReviews = async (storeId) => {
+    try {
+        const reviews = await prisma.review.findMany({
+            where: {
+                store_id: parseInt(storeId),
+                id: { gt: parseInt(cursor) }
+            },
+            include: {
+                user: true,
+                store: true,
+                review_image: true
+            },
+            orderBy: { id: "asc" },
+            take: 5
+        });
+
+        return reviews;
+    } catch (err) {
+        console.log("Prsima 오류: ", err);
+        throw new Error("가게 리뷰 조회 중 오류 발생: ", err.message);
     }
 }
