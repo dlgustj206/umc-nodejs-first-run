@@ -9,7 +9,7 @@ export const addNewStore = async (storeData) => {
     return responseFromStore(store);
 };
 
-export const listStoreReviews = async (storeId) => {
-    const reviews = await getAllStoreReviews(storeId);
+export const listStoreReviews = async (storeId, cursor = 0) => {
+    const reviews = await getAllStoreReviews(storeId, cursor);
     return responseFromReview(reviews);
 }
