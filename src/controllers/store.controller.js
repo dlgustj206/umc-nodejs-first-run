@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { bodyToStore } from "../dtos/store.dto.js";
 import { addNewStore } from "../services/store.service.js";
+import { listStoreReviews } from "../services/store.service.js";
 
 export const handleAddStore = async (req, res, next) => {
     console.log("특정 지역에 가게를 추가합니다!");
@@ -25,7 +26,7 @@ export const handleAddStore = async (req, res, next) => {
 };
 
 export const handleListStoreReviews = async (req, res, next) => {
-    const reviews = await handleListStoreReviews(
+    const reviews = await listStoreReviews(
         req.params.storeId
     );
     res.status(StatusCodes.OK).json(reviews);
