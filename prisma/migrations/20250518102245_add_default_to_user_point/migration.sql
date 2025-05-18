@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `user` MODIFY `point` INTEGER NOT NULL DEFAULT 0;
