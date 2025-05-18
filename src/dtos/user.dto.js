@@ -1,11 +1,10 @@
 export const bodyToUser = (body) => {
-  const birth = new Date(body.birth);
-
   return {
     email: body.email,
     name: body.name,
     gender: body.gender,
-    birth,
+    birth: new Date(body.birth),
+    age: body.age,
     address: body.address || "",
     detailAddress: body.detailAddress || "",
     phoneNumber: body.phoneNumber,
