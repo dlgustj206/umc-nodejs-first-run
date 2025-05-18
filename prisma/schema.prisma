@@ -24,11 +24,11 @@ model User {
   address        String       @db.VarChar(255)
   detailAddress  String       @map("detail_address") @db.VarChar(40)
   point          Int          @default(0)
-  status         String       @db.VarChar(15)
-  inactiveDate   DateTime?    @map("inactive_date")
-  socialType     String       @map("social_type") @db.VarChar(10)
-  createdAt      DateTime     @default(now()) @map("created_at")
-  updatedAt      DateTime     @updatedAt @map("updated_at")
+  status         String       @default("active") @db.VarChar(15)
+  inactiveDate   DateTime?    @db.DateTime(6) @map("inactive_date")
+  socialType     String       @default("email") @map("social_type") @db.VarChar(10)
+  createdAt      DateTime     @default(now()) @db.DateTime(6) @map("created_at")
+  updatedAt      DateTime     @default(now()) @db.DateTime(6) @map("updated_at")
 
   reviews                     Review[]
   userFavorCategories         UserFavorCategory[]
