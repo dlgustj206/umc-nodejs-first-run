@@ -12,6 +12,7 @@ export const userSignUp = async (data) => {
     name: data.name,
     gender: data.gender,
     birth: data.birth,
+    age: data.age,
     address: data.address,
     detailAddress: data.detailAddress,
     phoneNumber: data.phoneNumber,
