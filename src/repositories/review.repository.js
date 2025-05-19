@@ -69,3 +69,25 @@ export const getAllStoreReviews = async (storeId) => {
         throw new Error("가게 리뷰 조회 중 오류 발생: ", err.message);
     }
 }
+
+export const getAllUserReviews = async (userId, cursor = 0) => {
+    try {
+        const reviews = await prisma.review.findMany({
+            where: {
+                user_id: userId,
+                ...(cursor > 0 && { id: { gt: cursor } }) // 첫 페이지일 땐 조건 없이 모든 리뷰 가져옴
+            },
+            include: {
+                store: true,
+                review_image: true
+            },
+            orderBy: { created_at: 'desc' },
+            take: 5
+        });
+
+         return reviews;
+    } catch (err) {
+        console.log("Prsima 오류: ", err);
+        throw new Error("사용자 리뷰 조회 중 오류 발생: ", err.message);
+    }
+}

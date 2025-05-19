@@ -1,8 +1,8 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import { handleUserSignUp } from "./controllers/user.controller.js";
-import { handleAddStore } from "./controllers/store.controller.js";
+import { handleListUserReviews, handleUserSignUp } from "./controllers/user.controller.js";
+import { handleAddStore, handleListStoreMissions } from "./controllers/store.controller.js";
 import { handleAddReview } from "./controllers/review.controller.js";
 import { handleAddMission } from "./controllers/mission.controller.js";
 import { handleChallengeMission } from "./controllers/userMission.controller.js";
@@ -22,21 +22,21 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// 회원가입
+// 사용자 관련
 app.post("/api/users/signup", handleUserSignUp);
+app.get("/api/users/:userId/reviews", handleListUserReviews);
 
-// 특정 지역에 가게 추가
+// 지역 및 가게 관련
 app.post("/api/regions/:regionId/stores", handleAddStore);
 
 // 리뷰 관련
 app.post("/api/stores/:storeId/reviews", handleAddReview);
 app.get("/api/store/:storeId/reviews", handleListStoreReviews);
 
-// 가게에 미션 추가
+// 미션 관련
 app.post("/api/stores/:storeId/missions", handleAddMission);
-
-// 가게의 미션을 도전 중인 미션에 추가
 app.post("/api/missions/:missionId/challenge", handleChallengeMission);
+app.get("api/stores/:storeId/missions", handleListStoreMissions);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
