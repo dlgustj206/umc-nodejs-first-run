@@ -44,8 +44,8 @@ export const checkStoreExists = async (storeId) => {
         where: { id: storeId },
         select: { id: true }
     })
-    return !store;
-}
+    return store;
+};
 
 export const getAllStoreReviews = async (storeId) => {
     try {
