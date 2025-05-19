@@ -38,7 +38,7 @@ export const responseFromReviews = (reviews) => {
             createdAt: review.created_at,
             updatedAt: review.updated_at
         })),
-        pagenation: {
+        pagination: {
             cursor: reviews.length ? Number(reviews[reviews.length - 1].id) : null
         }
     };
