@@ -1,49 +1,50 @@
-import { pool } from "../db.config.js";
 import { prisma } from "../db.config.js";
 
-export const addReview = async (review) => {
-    const conn = await pool.getConnection();
-
+export const addReview = async (data) => {
     try {
-        const [result] = await conn.query(
-            'INSERT INTO review (user_id, store_id, body, score) VALUES (?, ?, ?, ?)',
-            [review.user_id, review.store_id, review.body, review.score]
-        );
-        return result.insertId;
+        const review = await prisma.review.create({
+            data: {
+                user_id: data.user_id,
+                store_id: data.store_id,
+                body: data.body,
+                score: data.score,
+                created_at: new Date(),
+                updated_at: new Date()
+            }
+        })
+        return review.id;
     } catch (err) {
         throw new Error('DB 오류 발생: ' + err.message);
-    } finally {
-        conn.release();
     }
 };
 
 export const getReviewById = async (reviewId) => {
-    const conn = await pool.getConnection();
-
     try {
-        const [review] = await pool.query('SELECT * FROM review WHERE id = ?;', [reviewId]);
+        const review = await prisma.review.findUnique({
+            where: { id: reviewId },
+            include: {
+                review_image: true,
+                user: true,
+                store: true
+            }
+        })
 
-        if (review.length == 0) {
-            return null;
+        if(!review) {
+            throw new Error("존재하지 않는 리뷰입니다.");
         }
 
-        return review[0];
+        return review.id;
     } catch (err) {
         throw new Error('리뷰 조회 실패: ' + err.message);
-    } finally {
-        conn.release();
     }
 };
 
 export const checkStoreExists = async (storeId) => {
-    const conn = await pool.getConnection();
-
-    try {
-        const [store] = await pool.query('SELECT id FROM store WHERE id = ?', [storeId]);
-        return store.length > 0;
-    } finally {
-        conn.release;
-    }
+    const store = await prisma.store.findUnique({
+        where: { id: storeId },
+        select: { id: true }
+    })
+    return !store;
 }
 
 export const getAllStoreReviews = async (storeId) => {
