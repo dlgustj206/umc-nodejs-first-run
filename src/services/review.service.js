@@ -20,12 +20,6 @@ export const addNewReview = async (reviewData) => {
 };
 
 export const listUserReviews = async (userId, cursor = 0) => {
-    const storeExists = await checkStoreExists(reviewData.store_id);
-
-    if (!storeExists) {
-        throw new Error("존재하지 않는 가게입니다.");
-    }
-    
     const reviews = await getAllUserReviews(userId, cursor);
     return responseFromReviews(reviews);
 }
