@@ -51,7 +51,7 @@ export const checkStoreExists = async (storeId) => {
         select: { id: true }
     });
 
-    return !store;
+    return store;
 };
 
 export const getAllStoreMissions = async (storeId, cursor = 0) => {

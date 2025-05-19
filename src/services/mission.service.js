@@ -15,7 +15,7 @@ export const addNewMission = async (missionData) => {
 };
 
 export const listStoreMissions = async (storeId, cursor = 0) => {
-    const storeExists = await checkStoreExists(missionData.store_id);
+    const storeExists = await checkStoreExists(storeId);
 
     if (!storeExists) {
         throw new Error("존재하지 않는 가게입니다.");
