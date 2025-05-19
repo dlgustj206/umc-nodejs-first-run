@@ -53,3 +53,31 @@ export const checkStoreExists = async (storeId) => {
 
     return !store;
 };
+
+export const getAllStoreMissions = async (storeId, cursor = 0) => {
+    try {
+        const missions = await prisma.mission.findMany({
+            where: {
+                store_id: storeId,
+                ...(cursor > 0 && { id: { gt: cursor } })
+            },
+            include: {
+                store: {
+                    select: {
+                        name: true
+                    }
+                }
+            },
+            orderBy: { created_at: 'desc' },
+            take: 5
+        });
+
+        return missions.map(mission => ({
+            ...mission,
+            store_name: mission.store?.name
+        }));
+    } catch (err) {
+        console.log("Prsima 오류: ", err);
+        throw new Error("가게 미션 목록 조회 중 오류 발생: ", err.message);
+    }
+}
