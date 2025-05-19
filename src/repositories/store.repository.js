@@ -1,35 +1,38 @@
-import { pool } from "../db.config.js";
+import { prisma } from "../db.config.js";
 
-export const addStore = async (store) => {
-    const conn = await pool.getConnection();
-
+export const addStore = async (data) => {
     try {
-        const [result] = await pool.query(
-            'INSERT INTO store (name, address, region_id) VALUES (?, ?, ?)',
-            [store.name, store.address, store.region_id]
-        );
-        return result.insertId;
+        const store = await prisma.store.create({
+            data: {
+                region_id: data.region_id,
+                name: data.name,
+                address: data.address,
+                score: data.score,
+                created_at: new Date(),
+                updated_at: new Date()
+            }
+        })
+        return store.id;
     } catch (err) {
         throw new Error('DB 오류 발생: ' + err.message);
-    } finally {
-        conn.release();
     }
 };
 
 export const getStoreById = async (storeId) => {
-    const conn = await pool.getConnection();
-
     try {
-        const [store] = await pool.query('SELECT * FROM store WHERE id = ?;', [storeId]);
+        const store = await prisma.store.findUnique({
+            where: { id: storeId },
+            include: {
+                region: true
+            }
+        })
 
-        if (store.length == 0) {
-            return null;
+        if(!store) {
+            throw new Error("존재하지 않는 상점입니다.");
         }
 
-        return store[0];
+        return store.id;
     } catch (err) {
         throw new Error('가게 조회 실패: ' + err.message);
-    } finally {
-        conn.release();
     }
 };
