@@ -1,5 +1,5 @@
 import { responseFromUserMission } from "../dtos/userMission.dto.js";
-import { addUserMission, getUserMissionById, isMissionAlreadyChallenged } from "../repositories/userMission.repository.js";
+import { addUserMission, getAllProgressingMissions, getUserMissionById, isMissionAlreadyChallenged } from "../repositories/userMission.repository.js";
 
 export const challengeMission = async (userMissionData) => {
     const alreadyChallenged = await isMissionAlreadyChallenged(
@@ -15,4 +15,9 @@ export const challengeMission = async (userMissionData) => {
     const userMission = await getUserMissionById(userMissionId);
 
     return responseFromUserMission(userMission);
-}
+};
+
+export const listProgressionMissions = async (userId, cursor = 0) => {
+    const userMissions = await getAllProgressingMissions(userId, cursor);
+    return responseFromUserMission(userMissions);
+};

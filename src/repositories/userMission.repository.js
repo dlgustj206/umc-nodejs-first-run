@@ -47,3 +47,29 @@ export const isMissionAlreadyChallenged = async (userId, missionId) => {
     });
     return mission;
 };
+
+export const getAllProgressingMissions = async (userId, cursor = 0) => {
+    try {
+        const mission = await prisma.userMission.findMany({
+            where: {
+                user_id: userId,
+                status: "진행 중",
+                ...(cursor > 0 && { id: {gt: cursor } })
+            },
+            include: {
+                mission: true,
+                store: true
+            },
+            orderBy: { created_at: 'desc' },
+            take: 5
+        });
+
+        return mission.map(mission => ({
+            ...mission,
+            store_name: mission.store?.name
+        }));
+    } catch (err) {
+        console.log("Prsima 오류: ", err);
+        throw new Error("사용자가 진행 중인 미션 목록 조회 중 오류 발생: ", err.message);
+    }
+}

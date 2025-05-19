@@ -2,7 +2,7 @@ export const bodyToUserMission = (userId, missionId) => {
     return {
         user_id: userId,
         mission_id: missionId,
-        status: "ม๘วเ ม฿"
+        status: "?? ?"
     };
 };
 
