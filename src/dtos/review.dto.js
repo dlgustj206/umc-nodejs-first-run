@@ -16,10 +16,10 @@ export const responseFromReview = (review) => {
         id: review.id,
         body: review.body,
         score: review.score,
-        userId: review.user_id,
-        storeId: review.store_id,
-        createdAt: review.created_at,
-        updatedAt: review.updated_at,
+        userId: review.userId,
+        storeId: review.storeId,
+        createdAt: review.createdAt,
+        updatedAt: review.updatedAt,
     };
 };
 
@@ -33,10 +33,10 @@ export const responseFromReviews = (reviews) => {
             id: Number(review.id),
             body: review.body,
             score: review.score,
-            userId: review.user_id ? Number(review.user_id) : null,
-            storeId: review.store_id ? Number(review.store_id) : null,
-            createdAt: review.created_at,
-            updatedAt: review.updated_at
+            userId: review.userId ? Number(review.userId) : null,
+            storeId: review.storeId ? Number(review.storeId) : null,
+            createdAt: review.createdAt,
+            updatedAt: review.updatedAt
         })),
         pagination: {
             cursor: reviews.length ? Number(reviews[reviews.length - 1].id) : null

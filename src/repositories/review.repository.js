@@ -55,7 +55,7 @@ export const getAllStoreReviews = async (storeId) => {
     try {
         const reviews = await prisma.review.findMany({
             where: {
-                store_id: parseInt(storeId),
+                storeId: parseInt(storeId),
                 id: { gt: parseInt(cursor) }
             },
             include: {
@@ -78,14 +78,14 @@ export const getAllUserReviews = async (userId, cursor = 0) => {
     try {
         const reviews = await prisma.review.findMany({
             where: {
-                user_id: userId,
+                userId: userId,
                 ...(cursor > 0 && { id: { gt: cursor } }) // 첫 페이지일 땐 조건 없이 모든 리뷰 가져옴
             },
             include: {
                 store: true,
-                review_image: true
+                reviewImages: true
             },
-            orderBy: { created_at: 'desc' },
+            orderBy: { createdAt: 'desc' },
             take: 5
         });
 
