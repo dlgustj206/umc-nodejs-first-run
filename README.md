@@ -1,15 +1,6 @@
 ### 🍒 공통 미션
 
-0. 기존에 구현했던 API의 Repository 함수들을 모두 Prisma ORM을 이용하도록 변경
-
-1. 내가 작성한 리뷰 목록
-   - GET /api/users/:userId/reviews
-
-2. 특정 가게의 미션 목록
-   - GET /api/stores/:storeId/missions
-
-3. 내가 진행 중인 미션 목록
-   - GET /api/users/:userId/missions/progressing
-
-4. 내가 진행 중인 미션을 진행 완료로 바꾸기
-   - PATCH /api/missions/:userMissionId/status
+기존에 구현했던 API들에 Swagger 문서를 주석을 통해 만들기
+  - 요청의 파라미터 (쿼리 파라미터, body) 정보가 잘 문서화 되어야 함
+  - 응답의 성공 케이스가 문서화 되어야 함
+  - 응답이 실패할 수 있는 경우, 실패하는 응답의 케이스도 문서화 되어야 함
