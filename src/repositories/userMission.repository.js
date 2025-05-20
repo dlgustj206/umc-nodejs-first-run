@@ -89,7 +89,14 @@ export const updateUserMissionStatus = async (userMissionId, newStatus) => {
     try {
         const updated = await prisma.userMission.update({
             where: { id: userMissionId },
-            data: { status: newStatus }
+            data: { status: newStatus },
+            include: {
+                mission: {
+                    include: {
+                        store: true
+                    }
+                }
+            }
         });
         return updated;
     } catch (err) {
