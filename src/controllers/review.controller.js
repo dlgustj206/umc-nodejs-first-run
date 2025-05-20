@@ -7,10 +7,14 @@ export const handleAddReview = async (req, res, next) => {
 
     try {
         const storeId = req.params.storeId;
-        const {userId, content, score} = req.body;
+        const {userId, body, score} = req.body;
 
-        if (!storeId || !userId || !content) {
+        if (!storeId || !userId || !body) {
             return res.status(StatusCodes.BAD_REQUEST).json({ error: "필수 값 누락" });
+        }
+
+        if (score < 1 || score > 5) {
+            return res.status(StatusCodes.BAD_REQUEST).json({ error: "score는 1~5 사이여야 합니다" });
         }
 
         const reviewDTO = bodyToReview(req.body, storeId);

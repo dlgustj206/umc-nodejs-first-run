@@ -27,7 +27,7 @@ export const getReviewById = async (reviewId) => {
         const review = await prisma.review.findUnique({
             where: { id: reviewId },
             include: {
-                review_image: true,
+                reviewImages: true,
                 user: true,
                 store: true
             }
@@ -61,7 +61,7 @@ export const getAllStoreReviews = async (storeId) => {
             include: {
                 user: true,
                 store: true,
-                review_image: true
+                reviewImages: true
             },
             orderBy: { id: "asc" },
             take: 5

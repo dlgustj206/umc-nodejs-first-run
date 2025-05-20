@@ -2,7 +2,7 @@ export const bodyToReview = (body, storeId) => {
     return {
         store_id: storeId,
         user_id: body.userId,
-        body: body.content,
+        body: body.body,
         score: body.score
     };
 };
