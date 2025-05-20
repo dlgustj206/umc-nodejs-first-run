@@ -12,4 +12,4 @@
    - GET /api/users/:userId/missions
 
 4. 내가 진행 중인 미션을 진행 완료로 바꾸기
-   - GET /api/missions/:userMissionId/status
+   - PATCH /api/missions/:userMissionId/status
