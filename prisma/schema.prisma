@@ -66,7 +66,7 @@ model Store {
   id             BigInt       @id @default(autoincrement())
   regionId       BigInt       @map("region_id")
   name           String       @db.VarChar(50)
-  ddress         String       @db.VarChar(50)
+  address        String       @db.VarChar(50)
   score          Float        @default(0) @db.Float
   createdAt      DateTime     @default(now()) @db.DateTime(6) @map("created_at")
   updatedAt      DateTime     @default(now()) @db.DateTime(6) @map("updated_at")
