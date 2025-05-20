@@ -60,7 +60,7 @@ export const getAllStoreMissions = async (storeId, cursor = 0) => {
     try {
         const missions = await prisma.mission.findMany({
             where: {
-                store_id: storeId,
+                storeId: storeId,
                 ...(cursor > 0 && { id: { gt: cursor } })
             },
             include: {
@@ -70,7 +70,7 @@ export const getAllStoreMissions = async (storeId, cursor = 0) => {
                     }
                 }
             },
-            orderBy: { created_at: 'desc' },
+            orderBy: { createdAt: 'desc' },
             take: 5
         });
 

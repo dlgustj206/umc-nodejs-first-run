@@ -15,10 +15,10 @@ export const responseFromMission = (mission) => {
     return {
         id: Number(mission.id),    
         reward: mission.reward,
-        missionSpec: mission.mission_spec,
+        missionSpec: mission.missionSpec,
         deadline: mission.deadline,
-        storeId: mission.store_id,
-        createdAt: mission.created_at,
-        updatedAt: mission.updated_at,
+        storeId: mission.storeId ? Number(mission.storeId) : null,
+        createdAt: mission.createdAt,
+        updatedAt: mission.updatedAt,
     }
 }

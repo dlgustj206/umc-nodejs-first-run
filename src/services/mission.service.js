@@ -5,7 +5,7 @@ export const addNewMission = async (missionData) => {
     const storeExists = await checkStoreExists(missionData.store_id);
 
     if (!storeExists) {
-        throw new Error("Á¸ÀçÇÏÁö ¾Ê´Â °¡°ÔÀÔ´Ï´Ù.");
+        throw new Error("ì¡´ìž¬í•˜ì§€ ì•ŠëŠ” ê°€ê²Œìž…ë‹ˆë‹¤.");
     }
 
     const missionId = await addMission(missionData);
@@ -18,7 +18,7 @@ export const listStoreMissions = async (storeId, cursor = 0) => {
     const storeExists = await checkStoreExists(storeId);
 
     if (!storeExists) {
-        throw new Error("Á¸ÀçÇÏÁö ¾Ê´Â °¡°ÔÀÔ´Ï´Ù.");
+        throw new Error("ì¡´ìž¬í•˜ì§€ ì•ŠëŠ” ê°€ê²Œìž…ë‹ˆë‹¤.");
     }
 
     const missions = await getAllStoreMissions(storeId, cursor);

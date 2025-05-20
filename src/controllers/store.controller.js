@@ -5,19 +5,19 @@ import { listStoreReviews } from "../services/store.service.js";
 import { listStoreMissions } from "../services/mission.service.js";
 
 export const handleAddStore = async (req, res, next) => {
-    console.log("Æ¯Á¤ Áö¿ª¿¡ °¡°Ô¸¦ Ãß°¡ÇÕ´Ï´Ù!");
+    console.log("íŠ¹ì • ì§€ì—­ì— ê°€ê²Œë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤!");
 
     try {
         const regionId = req.params.regionId;
         const storeDTO = bodyToStore(req.body, regionId);
 
         if (!regionId || !storeDTO.name || !storeDTO.address) {
-            return res.status(StatusCodes.BAD_REQUEST).json({ error: "ÇÊ¼ö °ª ´©¶ô" });
+            return res.status(StatusCodes.BAD_REQUEST).json({ error: "í•„ìˆ˜ ê°’ ëˆ„ë½" });
         }
 
         const storeId = await addNewStore(storeDTO);
         res.status(StatusCodes.CREATED).json({
-            message: "°¡°Ô°¡ ¼º°øÀûÀ¸·Î Ãß°¡µÇ¾ú½À´Ï´Ù!",
+            message: "ê°€ê²Œê°€ ì„±ê³µì ìœ¼ë¡œ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤!",
             storeId: storeId
         });
     } catch (err) {
@@ -34,7 +34,7 @@ export const handleListStoreReviews = async (req, res, next) => {
         const reviews = await listStoreReviews(storeId, cursor);
 
         res.status(StatusCodes.OK).json({
-            message: "°¡°Ô ¸®ºä ¸ñ·ÏÀ» ¼º°øÀûÀ¸·Î Á¶È¸Çß½À´Ï´Ù!",
+            message: "ê°€ê²Œ ë¦¬ë·° ëª©ë¡ì„ ì„±ê³µì ìœ¼ë¡œ ì¡°íšŒí–ˆìŠµë‹ˆë‹¤!",
             reviews
         });
     } catch (err) {
@@ -50,7 +50,7 @@ export const handleListStoreMissions = async (req, res, next) => {
         const missions = await listStoreMissions(storeId, cursor);
 
         res.status(StatusCodes.OK).json({
-            message: "°¡°Ô ¹Ì¼Ç ¸ñ·ÏÀ» ¼º°øÀûÀ¸·Î Á¶È¸Çß½À´Ï´Ù!",
+            message: "ê°€ê²Œ ë¯¸ì…˜ ëª©ë¡ì„ ì„±ê³µì ìœ¼ë¡œ ì¡°íšŒí–ˆìŠµë‹ˆë‹¤!",
             missions
         });
     } catch (err) {
