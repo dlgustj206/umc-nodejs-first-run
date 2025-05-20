@@ -8,7 +8,7 @@ export const challengeMission = async (userMissionData) => {
     );
 
     if (alreadyChallenged) {
-        throw new Error("ÀÌ¹Ì µµÀü ÁßÀÎ ¹Ì¼ÇÀÔ´Ï´Ù.");
+        throw new Error("ì´ë¯¸ ë„ì „ ì¤‘ì¸ ë¯¸ì…˜ì…ë‹ˆë‹¤.");
     }
 
     const userMissionId = await addUserMission(userMissionData);
@@ -26,13 +26,13 @@ export const completeUserMission = async (userMissionId) => {
     const mission = await getUserMissionById(userMissionId);
 
     if(!mission) {
-        throw new Error("Á¸ÀçÇÏÁö ¾Ê´Â »ç¿ëÀÚ ¹Ì¼ÇÀÔ´Ï´Ù.");
+        throw new Error("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ì‚¬ìš©ì ë¯¸ì…˜ì…ë‹ˆë‹¤.");
     }
 
-    if(mission.status == "ÁøÇà ¿Ï·á") {
-        throw new Error("ÀÌ¹Ì ¿Ï·áµÈ ¹Ì¼ÇÀÔ´Ï´Ù.");
+    if(mission.status == "ì§„í–‰ ì™„ë£Œ") {
+        throw new Error("ì´ë¯¸ ì™„ë£Œëœ ë¯¸ì…˜ì…ë‹ˆë‹¤.");
     }
 
-    const updated = await updateUserMissionStatus(userMissionId, "ÁøÇà ¿Ï·á");
+    const updated = await updateUserMissionStatus(userMissionId, "ì§„í–‰ ì™„ë£Œ");
     return responseFromUserMission(updated);
 }

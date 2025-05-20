@@ -17,7 +17,7 @@ export const addUserMission = async (data) => {
         })
         return mission.id;
     } catch (err) {
-        throw new Error('DB ¿À·ù ¹ß»ı: ' + err.message);
+        throw new Error('DB ì˜¤ë¥˜ ë°œìƒ: ' + err.message);
     }
 };
 
@@ -27,17 +27,21 @@ export const getUserMissionById = async (missionId) => {
             where: { id: missionId },
             include: {
                 user: true,
-                mission: true
+                mission: {
+                    include: {
+                        store: true
+                    }
+                }
             }
         })
 
         if(!userMission) {
-            throw new Error("Á¸ÀçÇÏÁö ¾Ê´Â ¹Ì¼ÇÀÔ´Ï´Ù");
+            throw new Error("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ë¯¸ì…˜ì…ë‹ˆë‹¤");
         }
 
         return userMission.id;
     } catch (err) {
-        throw new Error('ÁøÇà ÁßÀÎ ¹Ì¼Ç Á¶È¸ ½ÇÆĞ: ' + err.message);
+        throw new Error('ì§„í–‰ ì¤‘ì¸ ë¯¸ì…˜ ì¡°íšŒ ì‹¤íŒ¨: ' + err.message);
     }
 };
 
@@ -57,14 +61,17 @@ export const getAllProgressingMissions = async (userId, cursor = 0) => {
         const mission = await prisma.userMission.findMany({
             where: {
                 userId: userId,
-                status: "ÁøÇà Áß",
+                status: "ì§„í–‰ ì¤‘",
                 ...(cursor > 0 && { id: {gt: cursor } })
             },
             include: {
-                mission: true,
-                store: true
+                mission: {
+                    include: {
+                        store: true
+                    }
+                }
             },
-            orderBy: { created_at: 'desc' },
+            orderBy: { createdAt: 'desc' },
             take: 5
         });
 
@@ -73,8 +80,8 @@ export const getAllProgressingMissions = async (userId, cursor = 0) => {
             store_name: mission.store?.name
         }));
     } catch (err) {
-        console.log("Prsima ¿À·ù: ", err);
-        throw new Error("»ç¿ëÀÚ°¡ ÁøÇà ÁßÀÎ ¹Ì¼Ç ¸ñ·Ï Á¶È¸ Áß ¿À·ù ¹ß»ı: ", err.message);
+        console.log("Prsima ì˜¤ë¥˜: ", err);
+        throw new Error("ì‚¬ìš©ìê°€ ì§„í–‰ ì¤‘ì¸ ë¯¸ì…˜ ëª©ë¡ ì¡°íšŒ ì¤‘ ì˜¤ë¥˜ ë°œìƒ: ", err.message);
     }
 };
 
@@ -86,7 +93,7 @@ export const updateUserMissionStatus = async (userMissionId, newStatus) => {
         });
         return updated;
     } catch (err) {
-        console.log("Prsima ¿À·ù: ", err);
-        throw new Error("¹Ì¼Ç »óÅÂ ¾÷µ¥ÀÌÆ® Áß ¿À·ù ¹ß»ı: ", err.message);
+        console.log("Prsima ì˜¤ë¥˜: ", err);
+        throw new Error("ë¯¸ì…˜ ìƒíƒœ ì—…ë°ì´íŠ¸ ì¤‘ ì˜¤ë¥˜ ë°œìƒ: ", err.message);
     }
 };
