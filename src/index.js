@@ -36,8 +36,8 @@ app.get("/api/store/:storeId/reviews", handleListStoreReviews);
 // 미션 관련
 app.post("/api/stores/:storeId/missions", handleAddMission);
 app.post("/api/missions/:missionId/challenge", handleChallengeMission);
-app.get("api/stores/:storeId/missions", handleListStoreMissions);
-app.get("api/users/:userId/missions/progressing", handleListProgressingMissions);
+app.get("/api/stores/:storeId/missions", handleListStoreMissions);
+app.get("/api/users/:userId/missions/progressing", handleListProgressingMissions);
 app.patch("api/missions/userMissionId/status", handleCompleteUserMission);
 
 app.listen(port, () => {
