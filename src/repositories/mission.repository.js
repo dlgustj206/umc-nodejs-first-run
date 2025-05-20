@@ -7,9 +7,9 @@ export const addMission = async (mission) => {
                 store: {
                     connect: { id: mission.store_id }
                 },
-                reward: data.reward,
-                deadline: new Date(data.deadline),
-                mission_spec: data.mission_spec,
+                reward: mission.reward,
+                deadline: new Date(mission.deadline),
+                missionSpec: mission.mission_spec,
                 createdAt: new Date(),
                 updatedAt: new Date()
             }

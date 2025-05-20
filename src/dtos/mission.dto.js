@@ -13,7 +13,7 @@ export const responseFromMission = (mission) => {
     }
 
     return {
-        id: mission.id,
+        id: Number(mission.id),    
         reward: mission.reward,
         missionSpec: mission.mission_spec,
         deadline: mission.deadline,
