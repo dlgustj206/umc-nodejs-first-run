@@ -2,17 +2,21 @@ import { prisma } from "../db.config.js";
 
 export const addReview = async (data) => {
     try {
-        const review = await prisma.review.create({
+        const createdReview = await prisma.review.create({
             data: {
-                user_id: data.user_id,
-                store_id: data.store_id,
+                user: {
+                    connect: { id: Number(data.user_id) }
+                },
+                store: {
+                    connect: { id: Number(data.store_id) }
+                },
                 body: data.body,
                 score: data.score,
-                created_at: new Date(),
-                updated_at: new Date()
+                createdAt: new Date(),
+                updatedAt: new Date()
             }
         })
-        return review.id;
+        return createdReview.id;
     } catch (err) {
         throw new Error('DB 오류 발생: ' + err.message);
     }

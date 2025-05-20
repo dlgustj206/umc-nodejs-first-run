@@ -2,17 +2,19 @@ import { prisma } from "../db.config.js";
 
 export const addStore = async (data) => {
     try {
-        const store = await prisma.store.create({
+        const createdStore = await prisma.store.create({
             data: {
-                region_id: data.region_id,
+                region: {
+                    connect: { id: Number(data.region_id) }
+                },
                 name: data.name,
                 address: data.address,
                 score: data.score,
-                created_at: new Date(),
-                updated_at: new Date()
+                createdAt: new Date(),
+                updatedAt: new Date()
             }
         })
-        return store.id;
+        return createdStore.id;
     } catch (err) {
         throw new Error('DB 오류 발생: ' + err.message);
     }

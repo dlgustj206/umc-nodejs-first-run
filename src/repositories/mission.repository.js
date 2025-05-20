@@ -2,17 +2,19 @@ import { prisma } from "../db.config.js";
 
 export const addMission = async (mission) => {
     try {
-        const mission = await prisma.mission.create({
+        const createdMission = await prisma.mission.create({
             data: {
-                store_id: data.store_id,
+                store: {
+                    connect: { id: mission.store_id }
+                },
                 reward: data.reward,
                 deadline: new Date(data.deadline),
                 mission_spec: data.mission_spec,
-                created_at: new Date(),
-                updated_at: new Date()
+                createdAt: new Date(),
+                updatedAt: new Date()
             }
         })
-        return mission.id;
+        return createdMission.id;
     } catch (err) {
         throw new Error('DB 오류 발생: ' + err.message);
     }

@@ -4,11 +4,15 @@ export const addUserMission = async (data) => {
     try {
         const mission = await prisma.userMission.create({
             data: {
-                user_id: data.user_id,
-                mission_id: data.mission_id,
+                user: {
+                    connect: { id: Number(data.user_id) }
+                },
+                mission: {
+                    connect: { id: Number(data.mission_id) }
+                },
                 status: data.status,
-                created_at: new Date(),
-                updated_at: new Date()
+                createdAt: new Date(),
+                updatedAt: new Date()
             }
         })
         return mission.id;
