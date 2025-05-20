@@ -41,3 +41,19 @@ export const handleListProgressingMissions = async (req, res, next) => {
         next(err);
     }
 };
+
+export const handleCompleteUserMission = async (req, res, next) => {
+    try {
+        const userMissionId = req.params.userMissionId;
+        const cursor = req.query.cursor ? req.query.cursor : 0;
+
+        const updatedMission = await completeUserMission(userMissionId);
+
+        res.status(StatusCodes.OK).json({
+            message: "사용자가 진행 중인 미션을 성공적으로 완료했습니다!",
+            updatedMission
+        });
+    } catch (err) {
+        next(err);
+    }
+};

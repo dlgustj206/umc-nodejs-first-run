@@ -72,4 +72,17 @@ export const getAllProgressingMissions = async (userId, cursor = 0) => {
         console.log("Prsima 오류: ", err);
         throw new Error("사용자가 진행 중인 미션 목록 조회 중 오류 발생: ", err.message);
     }
-}
+};
+
+export const updateUserMissionStatus = async (userMissionId, newStatus) => {
+    try {
+        const updated = await prisma.userMission.update({
+            where: { id: userMissionId },
+            data: { status: newStatus }
+        });
+        return updated;
+    } catch (err) {
+        console.log("Prsima 오류: ", err);
+        throw new Error("미션 상태 업데이트 중 오류 발생: ", err.message);
+    }
+};
