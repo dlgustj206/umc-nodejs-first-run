@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { bodyToUserMission } from "../dtos/userMission.dto.js";
-import { challengeMission, listProgressionMissions } from "../services/userMission.service.js";
+import { challengeMission, completeUserMission, listProgressionMissions } from "../services/userMission.service.js";
 
 export const handleChallengeMission = async (req, res, next) => {
     console.log("가게의 미션을 도전 중인 미션에 추가합니다!");

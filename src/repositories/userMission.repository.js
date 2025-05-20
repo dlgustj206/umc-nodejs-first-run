@@ -42,10 +42,10 @@ export const getUserMissionById = async (missionId) => {
 };
 
 export const isMissionAlreadyChallenged = async (userId, missionId) => {
-    const mission = await prisma.userMission.findUnique({
+    const mission = await prisma.userMission.findFirst({
         where: {
-            user_id: userId,
-            mission_id: missionid
+            userId: userId,
+            missionId: missionId
         },
         select: { id: true }
     });
@@ -56,7 +56,7 @@ export const getAllProgressingMissions = async (userId, cursor = 0) => {
     try {
         const mission = await prisma.userMission.findMany({
             where: {
-                user_id: userId,
+                userId: userId,
                 status: "ÁøÇà Áß",
                 ...(cursor > 0 && { id: {gt: cursor } })
             },
