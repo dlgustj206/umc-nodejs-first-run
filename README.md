@@ -1,15 +1,5 @@
 ### 🍒 공통 미션
 
-0. 기존에 구현했던 API의 Repository 함수들을 모두 Prisma ORM을 이용하도록 변경
-
-1. 내가 작성한 리뷰 목록
-   - GET /api/users/:userId/reviews
-
-2. 특정 가게의 미션 목록
-   - GET /api/stores/:storeId/missions
-
-3. 내가 진행 중인 미션 목록
-   - GET /api/users/:userId/missions/progressing
-
-4. 내가 진행 중인 미션을 진행 완료로 바꾸기
-   - PATCH /api/missions/:userMissionId/status
+기존에 구현했던 API의 응답 검토
+  - 성공 응답의 경우 표준 규격으로 잘 응답이 생성되는지 확인하고 수정
+  - 오류 처리에 대해 점검하고, 오류가 발생할 수 있는 부분들은 커스텀 `Error` 객체를 선언해 던지도록 리팩토링
