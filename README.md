@@ -9,7 +9,7 @@
    - GET /api/stores/:storeId/missions
 
 3. 내가 진행 중인 미션 목록
-   - GET /api/users/:userId/missions
+   - GET /api/users/:userId/missions/progressing
 
 4. 내가 진행 중인 미션을 진행 완료로 바꾸기
    - PATCH /api/missions/:userMissionId/status
