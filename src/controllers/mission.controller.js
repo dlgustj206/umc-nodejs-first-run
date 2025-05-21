@@ -4,12 +4,12 @@ import { addNewMission } from "../services/mission.service.js";
 
 export const handleAddMission = async (req, res, next) => {
     /*
-    #swagger.summary = '¹Ì¼Ç Ãß°¡ API';
+    #swagger.summary = 'ë¯¸ì…˜ ì¶”ê°€ API';
     #swagger.parameters['storeId'] = {
       in: 'path',
       required: true,
       type: 'integer',
-      description: '°¡°Ô ID'
+      description: 'ê°€ê²Œ ID'
     };
     #swagger.requestBody = {
       required: true,
@@ -21,20 +21,20 @@ export const handleAddMission = async (req, res, next) => {
             properties: {
               reward: { type: "integer", example: 1000 },
               deadline: { type: "string", format: "date-time", example: "2025-12-31T23:59:59Z" },
-              missionSpec: { type: "string", example: "¸®ºä »çÁø 1Àå°ú º°Á¡ 5Á¡À» ³²°ÜÁÖ¼¼¿ä." }
+              missionSpec: { type: "string", example: "ë¦¬ë·° ì‚¬ì§„ 1ì¥ê³¼ ë³„ì  5ì ì„ ë‚¨ê²¨ì£¼ì„¸ìš”." }
             }
           }
         }
       }
     };
     #swagger.responses[201] = {
-      description: "¹Ì¼Ç Ãß°¡ ¼º°ø",
+      description: "ë¯¸ì…˜ ì¶”ê°€ ì„±ê³µ",
       content: {
         "application/json": {
           schema: {
             type: "object",
             properties: {
-              message: { type: "string", example: "¹Ì¼ÇÀÌ ¼º°øÀûÀ¸·Î Ãß°¡µÇ¾ú½À´Ï´Ù!" },
+              message: { type: "string", example: "ë¯¸ì…˜ì´ ì„±ê³µì ìœ¼ë¡œ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤!" },
               missionId: { type: "integer", example: 42 }
             }
           }
@@ -42,7 +42,7 @@ export const handleAddMission = async (req, res, next) => {
       }
     };
     #swagger.responses[400] = {
-      description: "¹Ì¼Ç Ãß°¡ ½ÇÆĞ",
+      description: "ë¯¸ì…˜ ì¶”ê°€ ì‹¤íŒ¨",
       content: {
         "application/json": {
           schema: {
@@ -53,7 +53,7 @@ export const handleAddMission = async (req, res, next) => {
                 type: "object",
                 properties: {
                   errorCode: { type: "string", example: "M001" },
-                  reason: { type: "string", example: "ÇÊ¼ö °ª ´©¶ô" },
+                  reason: { type: "string", example: "í•„ìˆ˜ ê°’ ëˆ„ë½" },
                   data: { type: "object", example: {} }
                 }
               },
@@ -65,21 +65,21 @@ export const handleAddMission = async (req, res, next) => {
     };
     */
 
-    console.log("°¡°Ô¿¡ ¹Ì¼ÇÀ» Ãß°¡ÇÕ´Ï´Ù!");
+    console.log("ê°€ê²Œì— ë¯¸ì…˜ì„ ì¶”ê°€í•©ë‹ˆë‹¤!");
 
     try {
         const storeId = req.params.storeId;
         const {reward, deadline, missionSpec} = req.body;
 
         if (!storeId || !reward || !deadline || !missionSpec) {
-            return res.status(StatusCodes.BAD_REQUEST).json({ error: "ÇÊ¼ö °ª ´©¶ô" });
+            return res.status(StatusCodes.BAD_REQUEST).json({ error: "í•„ìˆ˜ ê°’ ëˆ„ë½" });
         }
 
         const missionDTO = bodyToMission(req.body, storeId);
         const missionId = await addNewMission(missionDTO);
 
         res.status(StatusCodes.CREATED).json({
-            message: "¹Ì¼ÇÀÌ ¼º°øÀûÀ¸·Î Ãß°¡µÇ¾ú½À´Ï´Ù!",
+            message: "ë¯¸ì…˜ì´ ì„±ê³µì ìœ¼ë¡œ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤!",
             missionId
         })
     } catch (err) {

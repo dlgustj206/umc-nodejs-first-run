@@ -4,12 +4,12 @@ import { addNewReview } from "../services/review.service.js";
 
 export const handleAddReview = async (req, res, next) => {
     /*
-    #swagger.summary = '¸®ºä µî·Ï API';
+    #swagger.summary = 'ë¦¬ë·° ë“±ë¡ API';
     #swagger.parameters['storeId'] = {
       in: 'path',
       required: true,
       type: 'integer',
-      description: '°¡°Ô ID'
+      description: 'ê°€ê²Œ ID'
     };
     #swagger.requestBody = {
       required: true,
@@ -20,7 +20,7 @@ export const handleAddReview = async (req, res, next) => {
             required: ["userId", "body", "score"],
             properties: {
               userId: { type: "integer", example: 1 },
-              body: { type: "string", example: "¿ÕÃòº£¸¨!" },
+              body: { type: "string", example: "ì™•ì¸„ë² ë¦…!" },
               score: { type: "integer", example: 5 }
             }
           }
@@ -28,13 +28,13 @@ export const handleAddReview = async (req, res, next) => {
       }
     };
     #swagger.responses[201] = {
-      description: "¸®ºä µî·Ï ¼º°ø",
+      description: "ë¦¬ë·° ë“±ë¡ ì„±ê³µ",
       content: {
         "application/json": {
           schema: {
             type: "object",
             properties: {
-              message: { type: "string", example: "¸®ºä°¡ ¼º°øÀûÀ¸·Î Ãß°¡µÇ¾ú½À´Ï´Ù!" },
+              message: { type: "string", example: "ë¦¬ë·°ê°€ ì„±ê³µì ìœ¼ë¡œ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤!" },
               reviewId: { type: "integer", example: 1 }
             }
           }
@@ -42,7 +42,7 @@ export const handleAddReview = async (req, res, next) => {
       }
     };
     #swagger.responses[400] = {
-      description: "¸®ºä µî·Ï ½ÇÆĞ",
+      description: "ë¦¬ë·° ë“±ë¡ ì‹¤íŒ¨",
       content: {
         "application/json": {
           schema: {
@@ -53,7 +53,7 @@ export const handleAddReview = async (req, res, next) => {
                 type: "object",
                 properties: {
                   errorCode: { type: "string", example: "R001" },
-                  reason: { type: "string", example: "score´Â 1~5 »çÀÌ¿©¾ß ÇÕ´Ï´Ù" },
+                  reason: { type: "string", example: "scoreëŠ” 1~5 ì‚¬ì´ì—¬ì•¼ í•©ë‹ˆë‹¤" },
                   data: { type: "object", example: {} }
                 }
               },
@@ -65,25 +65,25 @@ export const handleAddReview = async (req, res, next) => {
     };
     */
 
-    console.log("°¡°Ô¿¡ ¸®ºä¸¦ Ãß°¡ÇÕ´Ï´Ù!");
+    console.log("ê°€ê²Œì— ë¦¬ë·°ë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤!");
 
     try {
         const storeId = req.params.storeId;
         const {userId, body, score} = req.body;
 
         if (!storeId || !userId || !body) {
-            return res.status(StatusCodes.BAD_REQUEST).json({ error: "ÇÊ¼ö °ª ´©¶ô" });
+            return res.status(StatusCodes.BAD_REQUEST).json({ error: "í•„ìˆ˜ ê°’ ëˆ„ë½" });
         }
 
         if (score < 1 || score > 5) {
-            return res.status(StatusCodes.BAD_REQUEST).json({ error: "score´Â 1~5 »çÀÌ¿©¾ß ÇÕ´Ï´Ù" });
+            return res.status(StatusCodes.BAD_REQUEST).json({ error: "scoreëŠ” 1~5 ì‚¬ì´ì—¬ì•¼ í•©ë‹ˆë‹¤" });
         }
 
         const reviewDTO = bodyToReview(req.body, storeId);
         const reviewId = await addNewReview(reviewDTO);
 
         res.status(StatusCodes.CREATED).json({
-            message: "¸®ºä°¡ ¼º°øÀûÀ¸·Î Ãß°¡µÇ¾ú½À´Ï´Ù!",
+            message: "ë¦¬ë·°ê°€ ì„±ê³µì ìœ¼ë¡œ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤!",
             reviewId
         })
     } catch (err) {

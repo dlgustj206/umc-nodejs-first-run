@@ -4,12 +4,12 @@ import { challengeMission, completeUserMission, listProgressionMissions } from "
 
 export const handleChallengeMission = async (req, res, next) => {
     /*
-    #swagger.summary = '¹Ì¼Ç µµÀü API';
+    #swagger.summary = 'ë¯¸ì…˜ ë„ì „ API';
     #swagger.parameters['missionId'] = {
       in: 'path',
       required: true,
       type: 'integer',
-      description: '¹Ì¼Ç ID'
+      description: 'ë¯¸ì…˜ ID'
     };
     #swagger.requestBody = {
       required: true,
@@ -26,13 +26,13 @@ export const handleChallengeMission = async (req, res, next) => {
       }
     };
     #swagger.responses[201] = {
-      description: "µµÀü µî·Ï ¼º°ø",
+      description: "ë„ì „ ë“±ë¡ ì„±ê³µ",
       content: {
         "application/json": {
           schema: {
             type: "object",
             properties: {
-              message: { type: "string", example: "¹Ì¼Ç µµÀüÀÌ µî·ÏµÇ¾ú½À´Ï´Ù!" },
+              message: { type: "string", example: "ë¯¸ì…˜ ë„ì „ì´ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤!" },
               challengeId: { type: "integer", example: 88 }
             }
           }
@@ -40,7 +40,7 @@ export const handleChallengeMission = async (req, res, next) => {
       }
     };
     #swagger.responses[400] = {
-      description: "µµÀü µî·Ï ½ÇÆĞ",
+      description: "ë„ì „ ë“±ë¡ ì‹¤íŒ¨",
       content: {
         "application/json": {
           schema: {
@@ -51,7 +51,7 @@ export const handleChallengeMission = async (req, res, next) => {
                 type: "object",
                 properties: {
                   errorCode: { type: "string", example: "UM001" },
-                  reason: { type: "string", example: "userId ¶Ç´Â missionId ´©¶ô" },
+                  reason: { type: "string", example: "userId ë˜ëŠ” missionId ëˆ„ë½" },
                   data: { type: "object", example: {} }
                 }
               },
@@ -63,21 +63,21 @@ export const handleChallengeMission = async (req, res, next) => {
     };
     */
 
-    console.log("°¡°ÔÀÇ ¹Ì¼ÇÀ» µµÀü ÁßÀÎ ¹Ì¼Ç¿¡ Ãß°¡ÇÕ´Ï´Ù!");
+    console.log("ê°€ê²Œì˜ ë¯¸ì…˜ì„ ë„ì „ ì¤‘ì¸ ë¯¸ì…˜ì— ì¶”ê°€í•©ë‹ˆë‹¤!");
 
     try {
         const missionId = req.params.missionId;
         const userId = req.body.userId;
 
         if (!missionId || !userId) {
-            return res.status(StatusCodes.BAD_REQUEST).json({ error: "ÇÊ¼ö °ª ´©¶ô"})
+            return res.status(StatusCodes.BAD_REQUEST).json({ error: "í•„ìˆ˜ ê°’ ëˆ„ë½"})
         }
 
         const userMissionDTO = bodyToUserMission(userId, missionId);
         const challengeId = await challengeMission(userMissionDTO);
 
         res.status(StatusCodes.CREATED).json({
-            message: "¹Ì¼Ç µµÀüÀÌ µî·ÏµÇ¾ú½À´Ï´Ù!",
+            message: "ë¯¸ì…˜ ë„ì „ì´ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤!",
             challengeId
         });
     } catch (err) {
@@ -88,21 +88,21 @@ export const handleChallengeMission = async (req, res, next) => {
 
 export const handleListProgressingMissions = async (req, res, next) => {
     /*
-    #swagger.summary = 'ÁøÇà ÁßÀÎ À¯Àú ¹Ì¼Ç ¸ñ·Ï Á¶È¸ API';
+    #swagger.summary = 'ì§„í–‰ ì¤‘ì¸ ìœ ì € ë¯¸ì…˜ ëª©ë¡ ì¡°íšŒ API';
     #swagger.parameters['userId'] = {
       in: 'path',
       required: true,
       type: 'integer',
-      description: 'À¯Àú ID'
+      description: 'ìœ ì € ID'
     };
     #swagger.responses[200] = {
-      description: "ÁøÇà ÁßÀÎ ¹Ì¼Ç Á¶È¸ ¼º°ø",
+      description: "ì§„í–‰ ì¤‘ì¸ ë¯¸ì…˜ ì¡°íšŒ ì„±ê³µ",
       content: {
         "application/json": {
           schema: {
             type: "object",
             properties: {
-              message: { type: "string", example: "»ç¿ëÀÚ°¡ ÁøÇà ÁßÀÎ ¹Ì¼Ç ¸ñ·ÏÀ» ¼º°øÀûÀ¸·Î Á¶È¸Çß½À´Ï´Ù!" },
+              message: { type: "string", example: "ì‚¬ìš©ìê°€ ì§„í–‰ ì¤‘ì¸ ë¯¸ì…˜ ëª©ë¡ì„ ì„±ê³µì ìœ¼ë¡œ ì¡°íšŒí–ˆìŠµë‹ˆë‹¤!" },
               missions: { type: "array", items: { type: "object" } }
             }
           }
@@ -110,7 +110,7 @@ export const handleListProgressingMissions = async (req, res, next) => {
       }
     };
     #swagger.responses[400] = {
-      description: "ÁøÇà ÁßÀÎ ¹Ì¼Ç Á¶È¸ ½ÇÆĞ",
+      description: "ì§„í–‰ ì¤‘ì¸ ë¯¸ì…˜ ì¡°íšŒ ì‹¤íŒ¨",
       content: {
         "application/json": {
           schema: {
@@ -121,7 +121,7 @@ export const handleListProgressingMissions = async (req, res, next) => {
                 type: "object",
                 properties: {
                   errorCode: { type: "string", example: "UM002" },
-                  reason: { type: "string", example: "Á¸ÀçÇÏÁö ¾Ê´Â À¯ÀúÀÔ´Ï´Ù." },
+                  reason: { type: "string", example: "ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ìœ ì €ì…ë‹ˆë‹¤." },
                   data: { type: "object", example: {} }
                 }
               },
@@ -140,7 +140,7 @@ export const handleListProgressingMissions = async (req, res, next) => {
         const missions = await listProgressionMissions(userId, cursor);
 
         res.status(StatusCodes.OK).json({
-            message: "»ç¿ëÀÚ°¡ ÁøÇà ÁßÀÎ ¹Ì¼Ç ¸ñ·ÏÀ» ¼º°øÀûÀ¸·Î Á¶È¸Çß½À´Ï´Ù!",
+            message: "ì‚¬ìš©ìê°€ ì§„í–‰ ì¤‘ì¸ ë¯¸ì…˜ ëª©ë¡ì„ ì„±ê³µì ìœ¼ë¡œ ì¡°íšŒí–ˆìŠµë‹ˆë‹¤!",
             missions
         });
     } catch (err) {
@@ -150,21 +150,21 @@ export const handleListProgressingMissions = async (req, res, next) => {
 
 export const handleCompleteUserMission = async (req, res, next) => {
     /*
-    #swagger.summary = 'À¯Àú ¹Ì¼Ç ¿Ï·á Ã³¸® API';
+    #swagger.summary = 'ìœ ì € ë¯¸ì…˜ ì™„ë£Œ ì²˜ë¦¬ API';
     #swagger.parameters['userMissionId'] = {
       in: 'path',
       required: true,
       type: 'integer',
-      description: 'À¯Àú ¹Ì¼Ç ID'
+      description: 'ìœ ì € ë¯¸ì…˜ ID'
     };
     #swagger.responses[200] = {
-      description: "¹Ì¼Ç ¿Ï·á ¼º°ø",
+      description: "ë¯¸ì…˜ ì™„ë£Œ ì„±ê³µ",
       content: {
         "application/json": {
           schema: {
             type: "object",
             properties: {
-              message: { type: "string", example: "»ç¿ëÀÚ°¡ ÁøÇà ÁßÀÎ ¹Ì¼ÇÀ» ¼º°øÀûÀ¸·Î ¿Ï·áÇß½À´Ï´Ù!" },
+              message: { type: "string", example: "ì‚¬ìš©ìê°€ ì§„í–‰ ì¤‘ì¸ ë¯¸ì…˜ì„ ì„±ê³µì ìœ¼ë¡œ ì™„ë£Œí–ˆìŠµë‹ˆë‹¤!" },
               updatedMission: { type: "object" }
             }
           }
@@ -172,7 +172,7 @@ export const handleCompleteUserMission = async (req, res, next) => {
       }
     };
     #swagger.responses[400] = {
-      description: "¹Ì¼Ç ¿Ï·á Ã³¸® ½ÇÆĞ",
+      description: "ë¯¸ì…˜ ì™„ë£Œ ì²˜ë¦¬ ì‹¤íŒ¨",
       content: {
         "application/json": {
           schema: {
@@ -183,7 +183,7 @@ export const handleCompleteUserMission = async (req, res, next) => {
                 type: "object",
                 properties: {
                   errorCode: { type: "string", example: "UM003" },
-                  reason: { type: "string", example: "ÀÌ¹Ì ¿Ï·áµÈ ¹Ì¼ÇÀÔ´Ï´Ù." },
+                  reason: { type: "string", example: "ì´ë¯¸ ì™„ë£Œëœ ë¯¸ì…˜ì…ë‹ˆë‹¤." },
                   data: { type: "object", example: {} }
                 }
               },
@@ -202,7 +202,7 @@ export const handleCompleteUserMission = async (req, res, next) => {
         const updatedMission = await completeUserMission(userMissionId);
 
         res.status(StatusCodes.OK).json({
-            message: "»ç¿ëÀÚ°¡ ÁøÇà ÁßÀÎ ¹Ì¼ÇÀ» ¼º°øÀûÀ¸·Î ¿Ï·áÇß½À´Ï´Ù!",
+            message: "ì‚¬ìš©ìê°€ ì§„í–‰ ì¤‘ì¸ ë¯¸ì…˜ì„ ì„±ê³µì ìœ¼ë¡œ ì™„ë£Œí–ˆìŠµë‹ˆë‹¤!",
             updatedMission
         });
     } catch (err) {
