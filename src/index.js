@@ -3,6 +3,11 @@ import dotenv from "dotenv";
 import express from "express";
 import swaggerAutogen from "swagger-autogen";
 import swaggerUiExpress from "swagger-ui-express";
+import { PrismaSessionStore } from "@quixo3/prisma-session-store";
+import session from "express-session";
+import passport from "passport";
+import { googleStrategy } from "./auth.config.js";
+import { prisma } from "./db.config.js";
 import { handleListUserReviews, handleUserSignUp } from "./controllers/user.controller.js";
 import { handleAddStore, handleListStoreMissions } from "./controllers/store.controller.js";
 import { handleAddReview } from "./controllers/review.controller.js";
@@ -11,6 +16,15 @@ import { handleChallengeMission, handleCompleteUserMission, handleListProgressin
 import { handleListStoreReviews } from "./controllers/store.controller.js";
 
 dotenv.config();
+
+passport.use(googleStrategy);
+passport.serializeUser((user, done) => {
+  done(null, {
+    ...user,
+    id: user.id.toString(),
+  });
+});
+passport.deserializeUser((user, done) => done(null, user));
 
 const app = express();
 const port = process.env.PORT;
@@ -28,6 +42,25 @@ app.use(
     },
   })
 );
+
+app.use(
+  session({
+    cookie: {
+      maxAge: 7 * 24 * 60 * 60 * 1000, // ms
+    },
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.EXPRESS_SESSION_SECRET,
+    store: new PrismaSessionStore(prisma, {
+      checkPeriod: 2 * 60 * 1000, // ms
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined,
+    }),
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get("/openapi.json", async (req, res, next) => {
   // #swagger.ignore = true
@@ -50,7 +83,18 @@ app.get("/openapi.json", async (req, res, next) => {
   res.json(result ? result.data : null);
 });
 
+app.get("/oauth2/login/google", passport.authenticate("google"));
+app.get(
+  "/oauth2/callback/google",
+  passport.authenticate("google", {
+    failureRedirect: "/oauth2/login/google",
+    failureMessage: true,
+  }),
+  (req, res) => res.redirect("/")
+);
+
 app.get("/", (req, res) => {
+  console.log(req.user);
   res.send("Hello World!");
 });
 
