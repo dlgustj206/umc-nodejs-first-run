@@ -7,6 +7,7 @@ import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import session from "express-session";
 import passport from "passport";
 import { googleStrategy } from "./auth.config.js";
+import { kakaoStrategy } from "./auth.config.js";
 import { prisma } from "./db.config.js";
 import { handleListUserReviews, handleUserSignUp } from "./controllers/user.controller.js";
 import { handleAddStore, handleListStoreMissions } from "./controllers/store.controller.js";
@@ -18,6 +19,7 @@ import { handleListStoreReviews } from "./controllers/store.controller.js";
 dotenv.config();
 
 passport.use(googleStrategy);
+passport.use(kakaoStrategy);
 passport.serializeUser((user, done) => {
   done(null, {
     ...user,
@@ -88,6 +90,16 @@ app.get(
   "/oauth2/callback/google",
   passport.authenticate("google", {
     failureRedirect: "/oauth2/login/google",
+    failureMessage: true,
+  }),
+  (req, res) => res.redirect("/")
+);
+
+app.get("/oauth2/login/kakao", passport.authenticate("kakao"));
+app.get(
+  "/oauth2/callback/kakao",
+  passport.authenticate("kakao", {
+    failureRedirect: "/oauth2/login/kakao",
     failureMessage: true,
   }),
   (req, res) => res.redirect("/")
