@@ -42,3 +42,12 @@ export const getUserPreferencesByUserId = async (userId) => {
 
   return preferences;
 };
+
+export const updateUser = async (userId, data) => {
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data,
+  });
+
+  return updatedUser;
+};

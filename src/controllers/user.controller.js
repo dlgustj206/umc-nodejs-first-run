@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
-import { bodyToUser } from "../dtos/user.dto.js";
-import { userSignUp } from "../services/user.service.js";
+import { bodyToUser, bodyToUserUpdate } from "../dtos/user.dto.js";
+import { updateUserInfo, userSignUp } from "../services/user.service.js";
 import { listUserReviews } from "../services/review.service.js";
 
 export const handleUserSignUp = async (req, res, next) => {
@@ -165,6 +165,31 @@ export const handleListUserReviews = async (req, res, next) => {
       message: "사용자가 작성한 리뷰 목록을 성공적으로 조회했습니다!",
       reviews
     })
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const handleUpdateUserInfo = async (req, res, next) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: "로그인이 필요합니다." });
+
+    const userId = BigInt(req.user.id);
+    const updateData = bodyToUserUpdate(req.body);
+    const updatedUser = await updateUserInfo(userId, updateData);
+
+    // toJSON 오버라이딩
+    updatedUser.toJSON = function () {
+      return {
+        ...this,
+        id: this.id.toString(),
+      };
+    };
+    
+    res.status(StatusCodes.OK).json({
+      message: "사용자 정보가 수정되었습니다!",
+      user: updatedUser
+    });
   } catch (err) {
     next(err);
   }

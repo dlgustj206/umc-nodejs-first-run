@@ -4,6 +4,7 @@ import {
   getUser,
   getUserPreferencesByUserId,
   setPreference,
+  updateUser,
 } from "../repositories/user.repository.js";
 
 export const userSignUp = async (data) => {
@@ -30,4 +31,8 @@ export const userSignUp = async (data) => {
   const preferences = await getUserPreferencesByUserId(joinUserId);
 
   return responseFromUser({ user, preferences });
+};
+
+export const updateUserInfo = async (userId, updateData) => {
+  return await updateUser(userId, updateData);
 };

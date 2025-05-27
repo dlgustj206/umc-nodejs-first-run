@@ -9,7 +9,7 @@ import passport from "passport";
 import { googleStrategy } from "./auth.config.js";
 import { kakaoStrategy } from "./auth.config.js";
 import { prisma } from "./db.config.js";
-import { handleListUserReviews, handleUserSignUp } from "./controllers/user.controller.js";
+import { handleListUserReviews, handleUpdateUserInfo, handleUserSignUp } from "./controllers/user.controller.js";
 import { handleAddStore, handleListStoreMissions } from "./controllers/store.controller.js";
 import { handleAddReview } from "./controllers/review.controller.js";
 import { handleAddMission } from "./controllers/mission.controller.js";
@@ -113,6 +113,7 @@ app.get("/", (req, res) => {
 // 사용자 관련
 app.post("/api/users/signup", handleUserSignUp);
 app.get("/api/users/:userId/reviews", handleListUserReviews);
+app.patch("/api/users/me", handleUpdateUserInfo);
 
 // 지역 및 가게 관련
 app.post("/api/regions/:regionId/stores", handleAddStore);

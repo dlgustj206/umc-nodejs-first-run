@@ -12,6 +12,16 @@ export const bodyToUser = (body) => {
   };
 };
 
+export const bodyToUserUpdate = (body) => {
+  return {
+    gender: body.gender,
+    birth: body.birth ? new Date(body.birth) : undefined,
+    address: body.address,
+    detailAddress: body.detailAddress,
+    phoneNumber: body.phoneNumber
+  };
+};
+
 export const responseFromUser = ({ user, preferences }) => {
   const preferFoods = preferences.map(
     (preference) => preference.foodCategory.name
